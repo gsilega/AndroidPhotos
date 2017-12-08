@@ -1,6 +1,10 @@
 package cs213.androidphotos;
 
 import android.content.Intent;
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import android.support.annotation.MainThread;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -20,6 +24,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Toast;
 import java.io.Serializable;
 
+
 import model.Album;
 import model.User;
 
@@ -32,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
     private EditText addAlbum;
     private TextView trying;
     String alb;
-    public static User u  = new User("Main");
+
     public static ListView albumView;
 
     @Override
@@ -41,17 +46,26 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         System.out.println("LOL");
         albumView = (ListView) findViewById(R.id.AlbumNames);
-      //  List_View();
+        try{
+            User.read();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
         CreateAlbum();
       //  List_View();
 
     }
 
+
+
     public void List_View(){
         open = findViewById(R.id.buttonOpen);
         rename= findViewById(R.id.buttonRename);
         delete = findViewById(R.id.buttonDelete);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.album_names, u.getAlbumNames());
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.album_names, User.getAlbumNames());
         albumView.setAdapter(adapter);
         albumView.setOnItemClickListener(
                     new AdapterView.OnItemClickListener(){
@@ -64,8 +78,9 @@ public class MainActivity extends AppCompatActivity {
                             delete.setVisibility(View.VISIBLE);
                             rename.setVisibility(View.VISIBLE);
                       //    int k=  u.getAlbumList().indexOf(value);
-                            DeleteMethod(position);
-                            RenameMethod(position);
+                                DeleteMethod(position);
+                               RenameMethod(position);
+
                             OpenAlbum(position);
 
                         }
@@ -83,12 +98,14 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 DeleteAlbum(a);
+
                 List_View();
+
             }
         });
     }
 
-    public void RenameMethod(final int b){
+    public void RenameMethod(final int b) {
         final int a =b;
         rename.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -112,8 +129,8 @@ public class MainActivity extends AppCompatActivity {
                                         alb = addAlbum.getText().toString();
                                        RenameAlbum(alb, b);
 
-                                        for(int i=0; i<u.getAlbumNames().size(); i++){
-                                            System.out.println(u.getAlbumNames().get(i));
+                                        for(int i=0; i<User.getAlbumNames().size(); i++){
+                                            System.out.println(User.getAlbumNames().get(i));
                                         }
                                         dialog.dismiss();
                                     }
@@ -157,12 +174,12 @@ public class MainActivity extends AppCompatActivity {
                             public void onClick(DialogInterface dialog, int which) {
                                addAlbum.setText(userInput.getText());
                                 alb = addAlbum.getText().toString();
-                                u.addAlbum(new Album(alb));
-                               List_View();
+                                User.addAlbum(new Album(alb));
+                                List_View();
                                // System.out.println(alb);
 
-                                for(int i=0; i<u.getAlbumNames().size(); i++){
-                                    System.out.println(u.getAlbumNames().get(i));
+                                for(int i=0; i<User.getAlbumNames().size(); i++){
+                                    System.out.println(User.getAlbumNames().get(i));
                                 }
                                 dialog.dismiss();
                             }
@@ -177,29 +194,41 @@ public class MainActivity extends AppCompatActivity {
                 AlertDialog alert = a.create();
                 alert.setTitle("Create an Album");
                 alert.show();
+                List_View();
+                try{ User.write();}
+                catch (IOException e) {
+                    e.printStackTrace();
+                }
 
             }
         });
     }
 
-    public void DeleteAlbum(int i){
+    public void DeleteAlbum(int i) {
        // System.out.println(u.getAlbumNames().get(i));
         if(i>=0)
-        u.deleteAlbum(u.getAlbumList().get(i));
+        User.deleteAlbum(User.getAlbumList().get(i));
       //  System.out.println(u.getAlbumNames().get(i));
      //   System.out.println(u.getAlbumNames().get(i));
-
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.album_names, u.getAlbumNames());
+        try{ User.write();}
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.album_names, User.getAlbumNames());
         albumView.setAdapter(adapter);
 
     }
 
     public void RenameAlbum(String val, int i){
-        Album b = u.getAlbumList().get(i);
-        u.getAlbumList().get(i).setAlbumName(val);
-        u.getAlbumNames().remove(i);
-        u.getAlbumNames().add(i,val);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.album_names, u.getAlbumNames());
+        Album b = User.getAlbumList().get(i);
+        User.getAlbumList().get(i).setAlbumName(val);
+        User.getAlbumNames().remove(i);
+        User.getAlbumNames().add(i,val);
+        try{ User.write();}
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.album_names, User.getAlbumNames());
         albumView.setAdapter(adapter);
     } // second dialog box
 
@@ -212,7 +241,7 @@ public class MainActivity extends AppCompatActivity {
                     public void onClick(View v) {
                         Intent intent = new Intent("cs213.androidphotos.AlbumDisplay");
                         Bundle bundle = new Bundle();
-                        bundle.putSerializable("ARRAYLIST",(Serializable)u.getAlbumList().get(s));
+                        bundle.putSerializable("ARRAYLIST",(Serializable)User.getAlbumList().get(s));
                         intent.putExtra("BUNDLE",bundle);
                         startActivity(intent);
                     }
