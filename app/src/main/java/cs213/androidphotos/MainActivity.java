@@ -63,12 +63,26 @@ public class MainActivity extends AppCompatActivity {
                             open.setVisibility(View.VISIBLE);
                             delete.setVisibility(View.VISIBLE);
                             rename.setVisibility(View.VISIBLE);
+                          int k=  u.getAlbumList().indexOf(value);
+                            DeleteMethod(position);
                         }
                     }
         );
         open.setVisibility(View.GONE);
         delete.setVisibility(View.GONE);
         rename.setVisibility(View.GONE);
+
+    }
+
+    public void DeleteMethod(int b){
+        final int a =b;
+        delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DeleteAlbum(a);
+                List_View();
+            }
+        });
     }
 
     public void CreateAlbum(){
@@ -119,7 +133,15 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    public void DeleteAlbum(){
+    public void DeleteAlbum(int i){
+       // System.out.println(u.getAlbumNames().get(i));
+        if(i>=0)
+        u.deleteAlbum(u.getAlbumList().get(i));
+      //  System.out.println(u.getAlbumNames().get(i));
+     //   System.out.println(u.getAlbumNames().get(i));
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.album_names, u.getAlbumNames());
+        albumView.setAdapter(adapter);
 
     }
 

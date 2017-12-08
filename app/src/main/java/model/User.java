@@ -63,8 +63,9 @@ public class User implements Serializable {
     }
 
     public void deleteAlbum(Album album) {
-        if (this.albumList.contains(album)) {
+        if (this.albumNames.contains(album.getAlbumName())) {
             this.albumList.remove(album);
+            this.albumNames.remove(album.getAlbumName());
         }
     }
 }
