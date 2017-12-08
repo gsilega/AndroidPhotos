@@ -5,12 +5,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.app.AlertDialog;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.content.DialogInterface;
 import android.view.LayoutInflater;
+import android.widget.ListView;
 
 import model.Album;
 import model.User;
@@ -21,15 +23,22 @@ public class MainActivity extends AppCompatActivity {
     private TextView trying;
     String alb;
     public static User u  = new User("Main");
-
+    public static ListView albumView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         System.out.println("LOL");
+        albumView = (ListView) findViewById(R.id.AlbumNames);
+       List_View();
         CreateAlbum();
 
+    }
+
+    public void List_View(){
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.album_names, u.getAlbumNames());
+        albumView.setAdapter(adapter);
     }
 
     public void CreateAlbum(){
@@ -56,6 +65,7 @@ public class MainActivity extends AppCompatActivity {
                                addAlbum.setText(userInput.getText());
                                 alb = addAlbum.getText().toString();
                                 u.addAlbum(new Album(alb));
+                                List_View();
                                // System.out.println(alb);
 
                                 for(int i=0; i<u.getAlbumNames().size(); i++){
