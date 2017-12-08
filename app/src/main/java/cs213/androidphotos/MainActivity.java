@@ -63,8 +63,10 @@ public class MainActivity extends AppCompatActivity {
                             open.setVisibility(View.VISIBLE);
                             delete.setVisibility(View.VISIBLE);
                             rename.setVisibility(View.VISIBLE);
-                          int k=  u.getAlbumList().indexOf(value);
+                      //    int k=  u.getAlbumList().indexOf(value);
                             DeleteMethod(position);
+                            RenameMethod(position);
+
                         }
                     }
         );
@@ -83,6 +85,52 @@ public class MainActivity extends AppCompatActivity {
                 List_View();
             }
         });
+    }
+
+    public void RenameMethod(final int b){
+        final int a =b;
+        rename.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LayoutInflater li = LayoutInflater.from(MainActivity.this);
+                View promptsView = li.inflate(R.layout.renamepopup,null);
+                AlertDialog.Builder a = new AlertDialog.Builder(MainActivity.this);
+                a.setView(promptsView);
+                addAlbum = (EditText) promptsView.findViewById(R.id.RenameAlbumInput);
+                trying = promptsView.findViewById(R.id.RenameAlbumTitle);
+                System.out.println(addAlbum + "addAlbum");
+                System.out.println(trying + "trying");
+                final EditText userInput = (EditText) promptsView
+                        .findViewById(R.id.RenameAlbumInput);
+                a.setMessage("Change Album Name")
+                        .setCancelable(false)
+                        .setPositiveButton("Add",new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        addAlbum.setText(userInput.getText());
+                                        alb = addAlbum.getText().toString();
+                                       RenameAlbum(alb, b);
+
+                                        for(int i=0; i<u.getAlbumNames().size(); i++){
+                                            System.out.println(u.getAlbumNames().get(i));
+                                        }
+                                        dialog.dismiss();
+                                    }
+                                }
+                        )
+                        .setNegativeButton("Cancel",new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.cancel();
+                            }
+                        }) ;
+                AlertDialog alert = a.create();
+                alert.setTitle("Change Album Name");
+                alert.show();
+
+            }
+        });
+
     }
 
     public void CreateAlbum(){
@@ -145,7 +193,14 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public void RenameAlbum(){} // second dialog box
+    public void RenameAlbum(String val, int i){
+        Album b = u.getAlbumList().get(i);
+        u.getAlbumList().get(i).setAlbumName(val);
+        u.getAlbumNames().remove(i);
+        u.getAlbumNames().add(i,val);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.album_names, u.getAlbumNames());
+        albumView.setAdapter(adapter);
+    } // second dialog box
 
     public void OpenAlbum(){} // new activity
 }
