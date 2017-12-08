@@ -12,11 +12,16 @@ import android.widget.TextView;
 import android.content.DialogInterface;
 import android.view.LayoutInflater;
 
+import model.Album;
+import model.User;
+
 public class MainActivity extends AppCompatActivity {
     private static Button button;
     private EditText addAlbum;
     private TextView trying;
     String alb;
+    public static User u  = new User("Main");
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,8 +55,13 @@ public class MainActivity extends AppCompatActivity {
                             public void onClick(DialogInterface dialog, int which) {
                                addAlbum.setText(userInput.getText());
                                 alb = addAlbum.getText().toString();
-                                System.out.println(alb);
-                                finish();
+                                u.addAlbum(new Album(alb));
+                               // System.out.println(alb);
+
+                                for(int i=0; i<u.getAlbumNames().size(); i++){
+                                    System.out.println(u.getAlbumNames().get(i));
+                                }
+                                dialog.dismiss();
                             }
                         }
                         )

@@ -4,9 +4,7 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 
-/**
- * Created by nehasharma on 12/7/17.
- */
+
 
 public class PhotoDisplay extends Activity {
     @Override
