@@ -18,7 +18,7 @@ import android.view.LayoutInflater;
 import android.widget.ListView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Toast;
-
+import java.io.Serializable;
 
 import model.Album;
 import model.User;
@@ -66,6 +66,7 @@ public class MainActivity extends AppCompatActivity {
                       //    int k=  u.getAlbumList().indexOf(value);
                             DeleteMethod(position);
                             RenameMethod(position);
+                            OpenAlbum(position);
 
                         }
                     }
@@ -202,5 +203,22 @@ public class MainActivity extends AppCompatActivity {
         albumView.setAdapter(adapter);
     } // second dialog box
 
-    public void OpenAlbum(){} // new activity
+    public void OpenAlbum(int i){
+        final int s =i;
+
+        open.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent("cs213.androidphotos.AlbumDisplay");
+                        Bundle bundle = new Bundle();
+                        bundle.putSerializable("ARRAYLIST",(Serializable)u.getAlbumList().get(s));
+                        intent.putExtra("BUNDLE",bundle);
+                        startActivity(intent);
+                    }
+                }
+        );
+
+
+    } // new activity
 }

@@ -1,4 +1,6 @@
 package model;
+
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -6,7 +8,7 @@ import java.util.Date;
 import model.Photo;
 
 
-public class Album implements Serializable {
+public class Album implements Serializable{
     // TODO: Compute serial version UID for final version of photo album app
     private static final long serialVersionUID = 5035981049716162638L;
 
@@ -115,5 +117,6 @@ public class Album implements Serializable {
 
 
     }
+   // public int describeContents() {return 0;}
 }
 
