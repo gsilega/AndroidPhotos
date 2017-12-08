@@ -1,10 +1,13 @@
 package cs213.androidphotos;
 
 import android.content.Intent;
+import android.support.annotation.MainThread;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.view.View;
+import android.widget.Adapter;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.app.AlertDialog;
@@ -13,12 +16,19 @@ import android.widget.TextView;
 import android.content.DialogInterface;
 import android.view.LayoutInflater;
 import android.widget.ListView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.Toast;
+
 
 import model.Album;
 import model.User;
 
 public class MainActivity extends AppCompatActivity {
     private static Button button;
+    private static Button open;
+    private static Button delete;
+    private static Button rename;
+
     private EditText addAlbum;
     private TextView trying;
     String alb;
@@ -31,14 +41,34 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         System.out.println("LOL");
         albumView = (ListView) findViewById(R.id.AlbumNames);
-       List_View();
+      //  List_View();
         CreateAlbum();
+      //  List_View();
 
     }
 
     public void List_View(){
+        open = findViewById(R.id.buttonOpen);
+        rename= findViewById(R.id.buttonRename);
+        delete = findViewById(R.id.buttonDelete);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.album_names, u.getAlbumNames());
         albumView.setAdapter(adapter);
+        albumView.setOnItemClickListener(
+                    new AdapterView.OnItemClickListener(){
+                        @Override
+                        public void onItemClick(AdapterView<?> parent, View v, int position, long id){
+                            String value = (String) albumView.getItemAtPosition(position);
+                            Toast.makeText(MainActivity.this, "Postion: " + position +
+                           " Value : " + value, Toast.LENGTH_LONG).show();
+                            open.setVisibility(View.VISIBLE);
+                            delete.setVisibility(View.VISIBLE);
+                            rename.setVisibility(View.VISIBLE);
+                        }
+                    }
+        );
+        open.setVisibility(View.GONE);
+        delete.setVisibility(View.GONE);
+        rename.setVisibility(View.GONE);
     }
 
     public void CreateAlbum(){
@@ -65,7 +95,7 @@ public class MainActivity extends AppCompatActivity {
                                addAlbum.setText(userInput.getText());
                                 alb = addAlbum.getText().toString();
                                 u.addAlbum(new Album(alb));
-                                List_View();
+                               List_View();
                                // System.out.println(alb);
 
                                 for(int i=0; i<u.getAlbumNames().size(); i++){
@@ -88,4 +118,12 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
+    public void DeleteAlbum(){
+
+    }
+
+    public void RenameAlbum(){} // second dialog box
+
+    public void OpenAlbum(){} // new activity
 }
