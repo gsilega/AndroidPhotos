@@ -2,7 +2,9 @@ package cs213.androidphotos;
 
 import android.content.Intent;
 import java.io.BufferedReader;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import android.support.annotation.MainThread;
@@ -22,10 +24,16 @@ import android.view.LayoutInflater;
 import android.widget.ListView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Toast;
-import java.io.Serializable;
 
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.io.File;
+import android.os.Environment;
 
 import model.Album;
+import model.Photo;
 import model.User;
 
 public class MainActivity extends AppCompatActivity {
@@ -33,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
     private static Button open;
     private static Button delete;
     private static Button rename;
-
+    public static final String FILE_NAME = "serial.dat";
     private EditText addAlbum;
     private TextView trying;
     String alb;
@@ -47,9 +55,9 @@ public class MainActivity extends AppCompatActivity {
         System.out.println("LOL");
         albumView = (ListView) findViewById(R.id.AlbumNames);
         try{
-            User.read();
+           read();
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("NOt readingfrom on create " );
         }
         catch (ClassNotFoundException e) {
             e.printStackTrace();
@@ -57,6 +65,12 @@ public class MainActivity extends AppCompatActivity {
         CreateAlbum();
       //  List_View();
 
+    }
+
+    private static File getFilePath() {
+
+        File f = new File(Environment.getExternalStorageDirectory() + "/" + FILE_NAME);
+        return f;
     }
 
 
@@ -176,6 +190,10 @@ public class MainActivity extends AppCompatActivity {
                                 alb = addAlbum.getText().toString();
                                 User.addAlbum(new Album(alb));
                                 List_View();
+                                try{ write();}
+                                catch (IOException e) {
+                                    System.out.println("NOt writing from ADD");
+                                }
                                // System.out.println(alb);
 
                                 for(int i=0; i<User.getAlbumNames().size(); i++){
@@ -195,9 +213,9 @@ public class MainActivity extends AppCompatActivity {
                 alert.setTitle("Create an Album");
                 alert.show();
                 List_View();
-                try{ User.write();}
+                try{ write();}
                 catch (IOException e) {
-                    e.printStackTrace();
+                    System.out.println("NOt writing from ADD");
                 }
 
             }
@@ -210,9 +228,9 @@ public class MainActivity extends AppCompatActivity {
         User.deleteAlbum(User.getAlbumList().get(i));
       //  System.out.println(u.getAlbumNames().get(i));
      //   System.out.println(u.getAlbumNames().get(i));
-        try{ User.write();}
+        try{ write();}
         catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("NOt writing from delete");
         }
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.album_names, User.getAlbumNames());
         albumView.setAdapter(adapter);
@@ -224,9 +242,10 @@ public class MainActivity extends AppCompatActivity {
         User.getAlbumList().get(i).setAlbumName(val);
         User.getAlbumNames().remove(i);
         User.getAlbumNames().add(i,val);
-        try{ User.write();}
+        try{ write();}
         catch (IOException e) {
             e.printStackTrace();
+            System.out.println("NOt writing from rename");
         }
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.album_names, User.getAlbumNames());
         albumView.setAdapter(adapter);
@@ -241,6 +260,7 @@ public class MainActivity extends AppCompatActivity {
                     public void onClick(View v) {
                         Intent intent = new Intent("cs213.androidphotos.AlbumDisplay");
                         Bundle bundle = new Bundle();
+
                         bundle.putSerializable("ARRAYLIST",(Serializable)User.getAlbumList().get(s));
                         intent.putExtra("BUNDLE",bundle);
                         startActivity(intent);
@@ -249,5 +269,48 @@ public class MainActivity extends AppCompatActivity {
         );
 
 
-    } // new activity
+    }
+    public static void read() throws IOException, ClassNotFoundException {
+        try{
+
+        ObjectInputStream ois = new ObjectInputStream(new FileInputStream(getFilePath()));
+       User.albumList = (ArrayList<Album>) ois.readObject();
+
+        for(Album z : User.albumList) {
+            User.albumNames.add(z.getAlbumName());
+            System.out.println(z.getAlbumName());
+            ArrayList<Photo> addList = new ArrayList<Photo>();
+            ArrayList<Photo> removeList = new ArrayList<Photo>();
+            for (Photo p : z.getPhotos()) {
+                Photo temp = new Photo(p.getCaption(), p.getPictureFile());
+                temp.SetDate(p.getDate());
+                temp.setTags(p.getTags());
+                addList.add(temp);
+                removeList.add(p);
+            }
+            z.getPhotos().removeAll(removeList);
+            z.getPhotos().addAll(addList);
+        }
+
+        ois.close();
+        //  System.out.println(UserNames());
+			/*   for (User u : UserList) {
+				   System.out.println(" Album list " + u.getAlbumNames());
+			   }*/
+    }
+        catch(IOException e){
+            System.out.println("File Not Found");
+        }
+    }
+
+    public static void write() throws IOException {
+        try{
+        ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(getFilePath()));
+        System.out.println("file path " + getFilePath());
+        oos.writeObject(User.albumList);
+        oos.close();
+    }catch(IOException e){
+        System.out.println("Not writing to file");
+            System.out.println("file path " + getFilePath());
+    }}
 }

@@ -5,11 +5,16 @@ import android.content.Intent;
         import java.io.FileNotFoundException;
         import java.io.FileReader;
         import java.io.IOException;
+        import android.Manifest;
+        import android.support.v4.content.ContextCompat;
+        import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.provider.MediaStore;
+import android.os.Build;
+import android.support.v4.app.ActivityCompat;
 import android.support.annotation.MainThread;
         import android.support.v7.app.AppCompatActivity;
         import android.os.Bundle;
@@ -39,6 +44,7 @@ public class AlbumDisplay extends AppCompatActivity {
     private static Button buttonAdd;
     private static ImageView imgView;
     private final static int Selected_Picture = 1;
+    private static final int REQUEST_WRITE_PERMISSION = 786;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,11 +53,21 @@ public class AlbumDisplay extends AppCompatActivity {
 
         imgView = (ImageView) findViewById(R.id.imageView1);
         buttonAdd = (Button) findViewById(R.id.buttonAddImage);
-        addPic();
+        requestPermission();
+
 
     }
+    private void requestPermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            requestPermissions(new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_WRITE_PERMISSION);
+        } else {
+           addPic();
+        }
+    }
 
-    public void addPic(){
+
+    public void addPic() {
+
         buttonAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -64,24 +80,33 @@ public class AlbumDisplay extends AppCompatActivity {
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode,Intent data){
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        if (requestCode == REQUEST_WRITE_PERMISSION && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+           addPic();
+        }
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        switch(requestCode){
+        switch (requestCode) {
             case Selected_Picture:
-                if(resultCode== RESULT_OK){
+                if (resultCode == RESULT_OK) {
                     Uri uri = data.getData();
-                    String [] projection =  {MediaStore.Images.Media.DATA};
-                    Cursor cursor =  getContentResolver().query(uri, projection,null,null,null);
-cursor.moveToFirst();
-int columnindex = cursor.getColumnIndex(projection[0]);
-String filepath = cursor.getString(columnindex);
-cursor.close();
-Bitmap img = BitmapFactory.decodeFile(filepath);
+                    String[] projection = {MediaStore.Images.Media.DATA};
+                    Cursor cursor = getContentResolver().query(uri, projection, null, null, null);
+                    cursor.moveToFirst();
+                    int columnindex = cursor.getColumnIndex(projection[0]);
+                    String filepath = cursor.getString(columnindex);
+                    cursor.close();
+                    Bitmap img = BitmapFactory.decodeFile(filepath);
                     Drawable d = new BitmapDrawable(img);
-                    imgView.setBackground(d);
+                    imgView.setImageDrawable(d);
                 }
                 break;
-            default: break;
+            default:
+                break;
         }
 
 

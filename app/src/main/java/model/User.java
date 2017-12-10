@@ -20,8 +20,8 @@ public class User implements Serializable {
 
     private String username;
 
-    private static ArrayList<Album> albumList = new ArrayList<Album>();
-    private  static ArrayList<String> albumNames = new ArrayList<String>();
+    public static ArrayList<Album> albumList = new ArrayList<Album>();
+     public static ArrayList<String> albumNames = new ArrayList<String>();
 
 
 
@@ -66,41 +66,5 @@ public class User implements Serializable {
             albumNames.remove(album.getAlbumName());
         }
     }
-    public static void read() throws IOException, ClassNotFoundException {
 
-        BufferedReader br = new BufferedReader(new FileReader("serial.dat"));
-        if ((br.readLine() == null)) return;
-
-        ObjectInputStream ois = new ObjectInputStream(new FileInputStream("serial.dat"));
-        albumList = (ArrayList<Album>) ois.readObject();
-
-            for(Album z : albumList) {
-                albumNames.add(z.getAlbumName());
-                System.out.println(z.getAlbumName());
-                ArrayList<Photo> addList = new ArrayList<Photo>();
-                ArrayList<Photo> removeList = new ArrayList<Photo>();
-                for (Photo p : z.getPhotos()) {
-                    Photo temp = new Photo(p.getCaption(), p.getPictureFile());
-                    temp.SetDate(p.getDate());
-                    temp.setTags(p.getTags());
-                    addList.add(temp);
-                    removeList.add(p);
-                }
-                z.getPhotos().removeAll(removeList);
-                z.getPhotos().addAll(addList);
-            }
-
-        ois.close();
-      //  System.out.println(UserNames());
-			/*   for (User u : UserList) {
-				   System.out.println(" Album list " + u.getAlbumNames());
-			   }*/
-    }
-
-    public static void write() throws FileNotFoundException, IOException {
-        ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("serial.dat"));
-        oos.writeObject(albumList);
-        oos.close();
-      //  System.out.println(UserNames());
-    }
 }
