@@ -18,9 +18,11 @@ import android.support.v4.app.ActivityCompat;
 import android.support.annotation.MainThread;
         import android.support.v7.app.AppCompatActivity;
         import android.os.Bundle;
-        import android.text.Editable;
+import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
         import android.view.View;
-        import android.widget.Adapter;
+import android.view.ViewGroupOverlay;
+import android.widget.Adapter;
         import android.widget.AdapterView;
         import android.widget.ArrayAdapter;
         import android.widget.Button;
@@ -38,6 +40,7 @@ import android.os.Bundle;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.widget.ImageView;
+import android.view.ViewGroup;
 
 
 public class AlbumDisplay extends AppCompatActivity {
@@ -45,6 +48,7 @@ public class AlbumDisplay extends AppCompatActivity {
     private static ImageView imgView;
     private final static int Selected_Picture = 1;
     private static final int REQUEST_WRITE_PERMISSION = 786;
+    private static RecyclerView rv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,10 +57,17 @@ public class AlbumDisplay extends AppCompatActivity {
 
         imgView = (ImageView) findViewById(R.id.imageView1);
         buttonAdd = (Button) findViewById(R.id.buttonAddImage);
+        rv = (RecyclerView) findViewById(R.id.photos);
         requestPermission();
 
 
     }
+ //   @Override
+ //   protected View onCreateView(LayoutInflater inflater, ViewGroup Cointainer, Bundle savedInstanceStates){
+      //  View layout = inflater.inflate(R.layout.fragment_navigation_drawer, container, false);
+     //   return layout;
+   // }
+
     private void requestPermission() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             requestPermissions(new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_WRITE_PERMISSION);
