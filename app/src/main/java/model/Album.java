@@ -58,8 +58,6 @@ public class Album implements Serializable{
     public void addPhoto(Photo photo) {
         this.photoList.add(photo);
         setPhotoCount(getPhotoCount() + 1);
-        setLatestDate(getLatestDate());
-        setEarliestDate(getEarliestDate());
     }
     /**
      * deletes the given Photo object from this album, if the album contains it
@@ -70,37 +68,9 @@ public class Album implements Serializable{
             photoList.remove(photo);
             setPhotoCount(getPhotoCount() - 1);
         }
-        setEarliestDate(getLatestDate());
-        setEarliestDate(getEarliestDate());
-    }
-    public  Calendar getLatestDate() {
-
-        if(getPhotos().isEmpty()) {
-            return null;
-        }
-        Calendar temp = this.getPhotos().get(0).getDate();
-
-        for (Photo p : photoList) {
-            if (p.getDate().after(temp))
-                temp = p.getDate();
-        }
-        return temp;
     }
 
-    public Calendar getEarliestDate() {
 
-        if(getPhotos().isEmpty()) {
-            return null;
-        }
-        else {
-            Calendar temp = this.getPhotos().get(0).getDate();
-
-            for (Photo p : photoList) {
-                if (p.getDate().before(temp))
-                    temp = p.getDate();
-            }
-            return temp;}
-    }
     public void setPhotoCount(int photoCount) {
         PhotoCount = photoCount;
     }

@@ -1,5 +1,7 @@
 package cs213.androidphotos;
 
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
@@ -8,13 +10,16 @@ import android.widget.ImageView;
 import android.content.Context;
 import model.Photo;
 import java.util.List;
+import model.Album;
+import android.graphics.Bitmap;
 public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.ViewHolder>{
     private Context context;
-    private List<Photo> adapaterList;
+    private Album adapaterList;
 
-    public PhotoAdapter(Context context, List<Photo> adapaterList) {
+    public PhotoAdapter(Context context, Album adapateList) {
         this.context = context;
-        this.adapaterList = adapaterList;
+
+        this.adapaterList = adapateList;
     }
 
 
@@ -25,13 +30,17 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.ViewHolder>{
     }
     @Override
     public void onBindViewHolder(ViewHolder holder, int position ){
-        Photo p = adapaterList.get(position);
-      //  holder.img.setImageDrawable();
+        Photo p = adapaterList.getPhotos().get(position);
+      //  ImageView m =new ImageView;
+       // m.setImageBitmap(p.getBt());
+        Drawable d = new BitmapDrawable(p.getBt());
+       holder.img.setImageDrawable(d);
     }
  
     @Override
     public int getItemCount() {
-        return adapaterList.size();
+        System.out.println(adapaterList);
+        return adapaterList.getPhotos().size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{

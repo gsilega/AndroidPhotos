@@ -27,34 +27,22 @@ public class Photo implements Serializable{
   //  transient private ImageView imageview = new ImageView();
     private ArrayList<Tag> tagList;
 
-    private Date dateTaken;
-    Calendar date;
-
-    private File pictureFile;
 
 
-    public Photo(String caption, File pictureImage) {
+
+    private Bitmap Bt;
+
+
+    public Photo(Bitmap bt) {
 
         this.caption = caption;
-        this.setPictureFile(pictureImage);
+       Bt = bt;
         tagList = new ArrayList<Tag>();
-        Calendar calendar = new GregorianCalendar();
-        calendar.set(Calendar.MILLISECOND, 0);
-        this.dateTaken = new Date(pictureImage.lastModified());
-      //  imageview = new ImageView();
-        date = Calendar.getInstance();
-        date.setTime(dateTaken);
-        date.set(Calendar.MILLISECOND, 0);
+
     }
 
 
-    public String getCaption() {
-        return this.caption;
-    }
 
-    public void setCaption(String newCaption) {
-        this.caption = newCaption;
-    }
 
     public ArrayList<Tag>getTags() {
         return this.tagList;
@@ -96,14 +84,9 @@ public class Photo implements Serializable{
         else return;
     }
 
-    public Calendar getDate() {
-        return date;
-    }
 
-    public String getDateAsString() {
-        DateFormat dateFormatter = new SimpleDateFormat("MM/dd/yyyy");
-        return dateFormatter.format(this.dateTaken);
-    }
+
+
 
     public static Date getDateFromString(String date) throws ParseException {
         if (isValidFormat(date)) {
@@ -129,18 +112,15 @@ public class Photo implements Serializable{
         return date != null;
     }
 
-    public File getPictureFile() {
-        return pictureFile;
+
+
+
+    public void setBt(Bitmap b){
+        Bt = b;
     }
 
-    public void setPictureFile(File pictureFile) {
-        this.pictureFile = pictureFile;
-    }
-
-
-    public void SetDate(Calendar date2) {
-        this.date=date2;
-
+    public Bitmap getBt(){
+        return Bt;
     }
 
 }

@@ -14,10 +14,12 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.os.Build;
+import model.Album;
 import android.support.v4.app.ActivityCompat;
 import android.support.annotation.MainThread;
         import android.support.v7.app.AppCompatActivity;
         import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
         import android.view.View;
@@ -41,14 +43,18 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.widget.ImageView;
 import android.view.ViewGroup;
-
+import model.Photo;
+import java.util.List;
+import java.util.ArrayList;
 
 public class AlbumDisplay extends AppCompatActivity {
     private static Button buttonAdd;
     private static ImageView imgView;
+    PhotoAdapter adapter;
     private final static int Selected_Picture = 1;
     private static final int REQUEST_WRITE_PERMISSION = 786;
     private static RecyclerView rv;
+    Album p;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +64,12 @@ public class AlbumDisplay extends AppCompatActivity {
         imgView = (ImageView) findViewById(R.id.imageView1);
         buttonAdd = (Button) findViewById(R.id.buttonAddImage);
         rv = (RecyclerView) findViewById(R.id.photos);
+        rv.setHasFixedSize(true);
+        rv.setLayoutManager(new LinearLayoutManager(this));
+        p = (Album)getIntent().getSerializableExtra("ARRAYLIST");
+        adapter = new PhotoAdapter(this,p);
+        rv.setAdapter(adapter);
+      //  rvImage = (ImageView) findViewById(R.id.picturePer);
         requestPermission();
 
 
@@ -84,6 +96,9 @@ public class AlbumDisplay extends AppCompatActivity {
             public void onClick(View v) {
                 Intent i = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                 startActivityForResult(i, Selected_Picture);
+
+
+
             }
         });
 
@@ -112,8 +127,11 @@ public class AlbumDisplay extends AppCompatActivity {
                     String filepath = cursor.getString(columnindex);
                     cursor.close();
                     Bitmap img = BitmapFactory.decodeFile(filepath);
+                    Photo s = new Photo(img);
+                    // need to figure out how to add images to a certain album
                     Drawable d = new BitmapDrawable(img);
-                    imgView.setImageDrawable(d);
+                    p.addPhoto(s);
+                    rv.setAdapter(adapter);
                 }
                 break;
             default:

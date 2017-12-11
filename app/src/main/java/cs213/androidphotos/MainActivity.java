@@ -260,9 +260,10 @@ public class MainActivity extends AppCompatActivity {
                     public void onClick(View v) {
                         Intent intent = new Intent("cs213.androidphotos.AlbumDisplay");
                         Bundle bundle = new Bundle();
-
+                        System.out.println("IS IT NULL "+ User.getAlbumList().get(s));
                         bundle.putSerializable("ARRAYLIST",(Serializable)User.getAlbumList().get(s));
                         intent.putExtra("BUNDLE",bundle);
+                        intent.putExtra("ARRAYLIST",(Serializable)User.getAlbumList().get(s));
                         startActivity(intent);
                     }
                 }
@@ -282,8 +283,8 @@ public class MainActivity extends AppCompatActivity {
             ArrayList<Photo> addList = new ArrayList<Photo>();
             ArrayList<Photo> removeList = new ArrayList<Photo>();
             for (Photo p : z.getPhotos()) {
-                Photo temp = new Photo(p.getCaption(), p.getPictureFile());
-                temp.SetDate(p.getDate());
+                Photo temp = new Photo(p.getBt());
+
                 temp.setTags(p.getTags());
                 addList.add(temp);
                 removeList.add(p);
