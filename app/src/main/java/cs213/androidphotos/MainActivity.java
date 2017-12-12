@@ -22,6 +22,12 @@ import android.widget.TextView;
 import android.content.DialogInterface;
 import android.view.LayoutInflater;
 import android.widget.ListView;
+import android.app.AlertDialog;
+import android.widget.EditText;
+import android.widget.TextView;
+import android.content.DialogInterface;
+import android.view.LayoutInflater;
+import android.widget.ListView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Toast;
 
@@ -281,7 +287,6 @@ public class MainActivity extends AppCompatActivity {
             ArrayList<Photo> removeList = new ArrayList<Photo>();
             for (Photo p : z.getPhotos()) {
                 Photo temp = new Photo(p.getBt());
-
                 temp.setTags(p.getTags());
                 addList.add(temp);
                 removeList.add(p);

@@ -1,5 +1,6 @@
 package cs213.androidphotos;
 
+import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
@@ -12,9 +13,20 @@ import android.content.Context;
 import model.Photo;
 import java.util.List;
 import model.Album;
+import model.User;
+import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.PopupMenu;
+import android.app.AlertDialog;
+import android.widget.EditText;
+import android.widget.TextView;
+import android.content.DialogInterface;
+import android.view.LayoutInflater;
+import android.widget.ListView;
+import java.util.ArrayList;
+
 public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.ViewHolder>{
     private Context context;
     private Album adapterList;
@@ -50,7 +62,8 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.ViewHolder>{
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         public ImageView img;
-        private Button imgDelete, imgCopy;
+        private Button imgDelete, imgCopy, imgDisplay;
+
         private int position;
         private Album currentObject;
         public ViewHolder(View itemView){
@@ -58,6 +71,7 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.ViewHolder>{
             img = (ImageView) itemView.findViewById(R.id.picturePer);
             imgDelete = (Button) itemView.findViewById(R.id.pictureDelete);
             imgCopy = (Button) itemView.findViewById(R.id.pictureCopy);
+           // imgDisplay = (Button) itemView.findViewById(R.id.pictureDisplay);
         }
         public void setData(Album currentObject, int position) {
             this.position = position;
@@ -77,13 +91,19 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.ViewHolder>{
                     break;
 
                 case R.id.pictureCopy:
-                  //  addItem(position, currentObject);
-                    break;
+                { System.out.println("WIthin Copy bethod");
+                    Intent intent = new Intent("cs213.androidphotos.CopyActivity");
+                    v.getContext().startActivity(intent);
+                    String name = CopyActivity.ReturnAlbumName();
+                    CopyItem(position,
+                            User.getAlbumList().get(User.getAlbumNames().indexOf(name)));
+                    break;}
             }
+
+        }
         }
 
 
-    }
     public void removeItem(int position) {
         Photo q = adapterList.getPhotos().get(position);
         adapterList.deletePhoto(q);
@@ -92,12 +112,13 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.ViewHolder>{
 //		notifyDataSetChanged();
     }
 
-    public void addItem(int position,  Photo currentObject) {
-        adapterList.getPhotos().add(position, currentObject);
-        notifyItemInserted(position);
-        notifyItemRangeChanged(position, adapterList.getPhotos().size());
-//		notifyDataSetChanged();
-    }
+    public void CopyItem(int position, Album i) {
+
+       User.getAlbumList().get(User.getAlbumList().indexOf(i)).addPhoto(adapterList.getPhotos().get(position));
+            }
+
+
+
 
 }
 

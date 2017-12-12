@@ -45,7 +45,16 @@
                 android:layout_gravity="right"
                 android:text="Delete">
 
-            </Button>>
+            </Button>
+            <Button
+                android:id="@+id/pictureDisplay"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:layout_gravity="right"
+                android:text="Diplay">
+
+            </Button>
 
 
             <Button

@@ -171,11 +171,12 @@ public class AlbumDisplay extends AppCompatActivity {
         User.getAlbumList().remove(cur);
         User.getAlbumNames().remove(cur);
         User.addAlbum(p);
-        try{
-        MainActivity.write();}
+       /* try{
+        MainActivity.write();
+        }
         catch(IOException e){
             System.out.println("Couldnt write");
-        }
+        }*/
         super.onDestroy();
     }
 
