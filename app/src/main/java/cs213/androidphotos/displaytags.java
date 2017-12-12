@@ -2,6 +2,8 @@ package cs213.androidphotos;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -14,6 +16,7 @@ import android.widget.ListView;
 import android.widget.Button;
 import model.Album;
 import model.*;
+import android.widget.ImageView;
 import android.graphics.Bitmap;
 
 import java.io.IOException;
@@ -25,6 +28,7 @@ public class displaytags extends AppCompatActivity {
     private static ListView tagView;
     private static Button  delTag;
     private static Button addTag;
+    private static ImageView imgview;
     private static Album  currAlbumn;
     private static Photo currPhoto;
    private EditText editType;
@@ -36,8 +40,11 @@ public class displaytags extends AppCompatActivity {
         tagView = (ListView) findViewById(R.id.Tags);
         delTag = (Button) findViewById(R.id.deleteTag);
         addTag = (Button) findViewById(R.id.AddTag);
+        imgview = (ImageView)findViewById(R.id.ImgForTag);
         currAlbumn = PhotoAdapter.CurrentDisplayAlbum;
         currPhoto = PhotoAdapter.CurrentImage;
+        Drawable d = new BitmapDrawable(currPhoto.getBt());
+        imgview.setImageDrawable(d);
         CreateTag();
         List_View();
 
