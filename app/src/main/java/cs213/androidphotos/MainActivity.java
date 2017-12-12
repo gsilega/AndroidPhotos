@@ -45,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
     private EditText addAlbum;
     private TextView trying;
     String alb;
+    public static int CURRENTALBUM;
 
     public static ListView albumView;
 
@@ -253,17 +254,13 @@ public class MainActivity extends AppCompatActivity {
 
     public void OpenAlbum(int i){
         final int s =i;
-
+        setCURRENTALBUM(i);
         open.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         Intent intent = new Intent("cs213.androidphotos.AlbumDisplay");
-                        Bundle bundle = new Bundle();
                         System.out.println("IS IT NULL "+ User.getAlbumList().get(s));
-                        bundle.putSerializable("ARRAYLIST",(Serializable)User.getAlbumList().get(s));
-                        intent.putExtra("BUNDLE",bundle);
-                        intent.putExtra("ARRAYLIST",(Serializable)User.getAlbumList().get(s));
                         startActivity(intent);
                     }
                 }
@@ -314,4 +311,9 @@ public class MainActivity extends AppCompatActivity {
         System.out.println("Not writing to file");
             System.out.println("file path " + getFilePath());
     }}
+
+    public static int setCURRENTALBUM(int c){
+        CURRENTALBUM =c;
+        return CURRENTALBUM;
+    }
 }

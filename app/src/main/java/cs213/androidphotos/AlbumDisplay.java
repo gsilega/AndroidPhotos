@@ -45,6 +45,8 @@ import android.graphics.BitmapFactory;
 import android.widget.ImageView;
 import android.view.ViewGroup;
 import model.Photo;
+import model.User;
+
 import java.util.List;
 import java.util.ArrayList;
 
@@ -56,18 +58,19 @@ public class AlbumDisplay extends AppCompatActivity {
     private static final int REQUEST_WRITE_PERMISSION = 786;
     private static RecyclerView rv;
     Album p;
-
+    public static int Current;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_album_display);
-
+        Current = MainActivity.CURRENTALBUM;
       //  imgView = (ImageView) findViewById(R.id.imageView1);
         buttonAdd = (Button) findViewById(R.id.buttonAddImage);
         rv = (RecyclerView) findViewById(R.id.photos);
         rv.setHasFixedSize(true);
         rv.setLayoutManager(new LinearLayoutManager(this));
-        p = (Album)getIntent().getSerializableExtra("ARRAYLIST");
+       // p = (Album)getIntent().getSerializableExtra("ARRAYLIST");
+        p = User.getAlbumList().get(Current);
         adapter = new PhotoAdapter(this,p);
         rv.setAdapter(adapter);
 
@@ -142,4 +145,38 @@ public class AlbumDisplay extends AppCompatActivity {
 
 
     }
+    @Override
+    public void onResume() {
+        super.onResume(); // Always call the superclass method first
+
+    }
+
+  /*  @Override
+    public void onPause() {
+        super.onPause();
+        int cur=  User.getAlbumNames().indexOf(p.getAlbumName());
+     User.getAlbumList().remove(cur);
+     User.getAlbumNames().remove(cur);
+     User.addAlbum(p);
+        try{
+            MainActivity.write();}
+        catch(IOException e){
+            System.out.println("Couldnt write");
+        }
+    }*/
+
+    @Override
+    public void onDestroy() {
+        int cur=  User.getAlbumNames().indexOf(p.getAlbumName());
+        User.getAlbumList().remove(cur);
+        User.getAlbumNames().remove(cur);
+        User.addAlbum(p);
+        try{
+        MainActivity.write();}
+        catch(IOException e){
+            System.out.println("Couldnt write");
+        }
+        super.onDestroy();
+    }
+
 }
