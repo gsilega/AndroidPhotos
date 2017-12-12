@@ -28,11 +28,18 @@
             </intent-filter>
         </activity>
         <activity android:name=".CopyActivity">
-        <intent-filter>
-            <action android:name="cs213.androidphotos.CopyActivity" />
+            <intent-filter>
+                <action android:name="cs213.androidphotos.CopyActivity" />
 
-            <category android:name="android.intent.category.DEFAULT" />
-        </intent-filter>
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".displaytags">
+            <intent-filter>
+                <action android:name="cs213.androidphotos.displaytags" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
         </activity>
     </application>
 

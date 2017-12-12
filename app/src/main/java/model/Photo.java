@@ -24,8 +24,10 @@ public class Photo implements Serializable{
 
     private String caption;
 
+
   //  transient private ImageView imageview = new ImageView();
     private ArrayList<Tag> tagList;
+    private ArrayList<String> tagListConverter;
 
 
 
@@ -38,6 +40,7 @@ public class Photo implements Serializable{
         this.caption = caption;
        Bt = bt;
         tagList = new ArrayList<Tag>();
+        tagListConverter = new ArrayList<String>();
 
     }
 
@@ -47,12 +50,15 @@ public class Photo implements Serializable{
     public ArrayList<Tag>getTags() {
         return this.tagList;
     }
-
+    public ArrayList<String>getTagStrings() {
+        return this.tagListConverter;
+    }
     public String TagtoString() {
         String fin = "";
         //	System.out.println(tagList.size());
         for (Tag t: tagList) {
-            //System.out.println(t);
+            String temp = t.getTagType() + " " + t.getTagValue() + "\n";
+            tagListConverter.add(temp);
             fin+=t.getTagType() + " " + t.getTagValue() + "\n";
         }
         System.out.println(fin);
@@ -69,18 +75,23 @@ public class Photo implements Serializable{
             if(t.equals(tag)) return;
         }
         tagList.add(tag);
+        tagListConverter.add(tag.getTagType() + " " + tag.getTagValue() + "\n");
+
+
     }
 
-    public void removeTag(Tag tag) { Tag l = new Tag("",""); boolean found = false;
+    public void removeTag(Tag tag) { Tag l = new Tag("",""); boolean found = false; int count =-1;
         for (Tag g : tagList) {
             if(g.equals(tag)) {
                 l = g;
                 found = true;
+                count++;
             }
         }
         System.out.println("Found : " + found);
         if(found==true)
-            tagList.remove(l);
+        {  tagList.remove(l);
+            tagListConverter.remove(count);}
         else return;
     }
 
