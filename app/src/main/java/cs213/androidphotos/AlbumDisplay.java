@@ -19,6 +19,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.annotation.MainThread;
         import android.support.v7.app.AppCompatActivity;
         import android.os.Bundle;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
@@ -61,7 +62,7 @@ public class AlbumDisplay extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_album_display);
 
-        imgView = (ImageView) findViewById(R.id.imageView1);
+      //  imgView = (ImageView) findViewById(R.id.imageView1);
         buttonAdd = (Button) findViewById(R.id.buttonAddImage);
         rv = (RecyclerView) findViewById(R.id.photos);
         rv.setHasFixedSize(true);
@@ -69,9 +70,10 @@ public class AlbumDisplay extends AppCompatActivity {
         p = (Album)getIntent().getSerializableExtra("ARRAYLIST");
         adapter = new PhotoAdapter(this,p);
         rv.setAdapter(adapter);
+
       //  rvImage = (ImageView) findViewById(R.id.picturePer);
         requestPermission();
-
+        rv.setItemAnimator(new DefaultItemAnimator());
 
     }
  //   @Override

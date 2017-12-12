@@ -2,22 +2,64 @@
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
-<android.support.v7.widget.CardView
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
-    <LinearLayout
-        android:orientation="vertical"
+    android:layout_height="match_parent"
+   >
+
+    <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <ImageView
-            android:id = "@+id/picturePer"
+
+        <LinearLayout
+            android:id="@+id/pictureLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:gravity="left"
+            android:orientation="vertical">
 
-            ></ImageView>>
-    </LinearLayout>
-</android.support.v7.widget.CardView>
+            <ImageView
+                android:id="@+id/picturePer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:adjustViewBounds="true"
+                android:scaleType="fitStart"
+
+                ></ImageView>
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/buttonLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:gravity="right"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/pictureDelete"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:layout_gravity="right"
+                android:text="Delete">
+
+            </Button>>
+
+
+            <Button
+                android:id="@+id/pictureCopy"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:text="Move">
+
+
+            </Button>>
+
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
 
 
 </LinearLayout>
