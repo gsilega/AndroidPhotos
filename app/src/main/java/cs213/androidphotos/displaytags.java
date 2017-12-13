@@ -2,6 +2,7 @@ package cs213.androidphotos;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.support.v7.app.AppCompatActivity;
@@ -28,6 +29,7 @@ public class displaytags extends AppCompatActivity {
     private static ListView tagView;
     private static Button  delTag;
     private static Button addTag;
+    private static Button slideshow;
     private static ImageView imgview;
     private static Album  currAlbumn;
     private static Photo currPhoto;
@@ -42,10 +44,12 @@ public class displaytags extends AppCompatActivity {
         addTag = (Button) findViewById(R.id.AddTag);
         imgview = (ImageView)findViewById(R.id.ImgForTag);
         currAlbumn = PhotoAdapter.CurrentDisplayAlbum;
-        currPhoto = PhotoAdapter.CurrentImage;
+       currPhoto = PhotoAdapter.CurrentImage;
         Drawable d = new BitmapDrawable(currPhoto.getBt());
         imgview.setImageDrawable(d);
+        slideshow = (Button) findViewById(R.id.SlideShowbutton);
         CreateTag();
+        Slideshow();
         List_View();
 
     }
@@ -142,6 +146,16 @@ public class displaytags extends AppCompatActivity {
         });
     }
 
+    public void Slideshow(){
+        slideshow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent("cs213.androidphotos.SlideShowActivity");
+                startActivity(intent);
+    }
+        });
+    }
+
     public void onDestroy() {
         try{
             System.out.println("on destroy");
@@ -150,6 +164,13 @@ public class displaytags extends AppCompatActivity {
         super.onDestroy();
 
 
+    }
+
+    public static Photo getCurrPhoto(){
+        return currPhoto;
+    }
+    public static Album getCurrAlbumn(){
+        return currAlbumn;
     }
 
 }

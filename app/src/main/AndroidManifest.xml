@@ -41,6 +41,13 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+        <activity android:name=".SlideShowActivity">
+            <intent-filter>
+                <action android:name="cs213.androidphotos.SlideShowActivity" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>
