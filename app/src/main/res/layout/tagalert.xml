@@ -8,12 +8,25 @@
         android:layout_height="wrap_content"
         android:text="create tag top is type botton is value : "
         android:textAppearance="?android:attr/textAppearanceLarge" />
-
-    <EditText
-        android:id="@+id/editTagType"
+    <RadioGroup
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
-    </EditText>
+        android:layout_height="wrap_content"
+        android:id="@+id/RadioGroup"
+        android:layout_gravity="center_horizontal">
+        <RadioButton
+            android:layout_width="match_parent"
+            android:id="@+id/NameButton"
+            android:layout_height="wrap_content"
+            android:text = "name"
+            android:checked="false"/>
+        <RadioButton
+            android:layout_width="match_parent"
+            android:id="@+id/LocationButton"
+            android:layout_height="wrap_content"
+            android:text = "Location"
+
+            android:checked="false"/>
+    </RadioGroup>
 
     <EditText
         android:id="@+id/editTagValue"

@@ -12,6 +12,8 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Toast;
 import android.widget.ListView;
 import android.widget.Button;
@@ -33,8 +35,14 @@ public class displaytags extends AppCompatActivity {
     private static ImageView imgview;
     private static Album  currAlbumn;
     private static Photo currPhoto;
-   private EditText editType;
    private EditText editValue;
+   private static RadioGroup rg;
+   private static RadioButton rb;
+    private static RadioButton rn;
+    private static RadioButton rl;
+   public String Type;
+   public static View promptsView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,13 +87,30 @@ public class displaytags extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 LayoutInflater li = LayoutInflater.from(displaytags.this);
-                View promptsView = li.inflate(R.layout.tagalert,null);
+           promptsView = li.inflate(R.layout.tagalert,null);
                 AlertDialog.Builder a = new AlertDialog.Builder(displaytags.this);
                 a.setView(promptsView);
-                editType = (EditText) promptsView.findViewById(R.id.editTagType) ;
+              //  rbclick(v);
+                rg = (RadioGroup)promptsView.findViewById(R.id.RadioGroup) ;
+                rg.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+                    public void onCheckedChanged(RadioGroup group, int checkedId) {
+
+                        int rgID = rg.getCheckedRadioButtonId();
+                        rb = (RadioButton)promptsView.findViewById(rgID);
+                        System.out.println(rg);
+                        System.out.println(rgID);
+                        System.out.println(R.id.NameButton);
+                        System.out.println(R.id.LocationButton);
+
+
+                        if(rb.getId()==R.id.NameButton){Type = "Name";}
+                        else if(rb.getId()==R.id.LocationButton) {Type = "Location";}
+                        else{
+                            Type = "Name"; // Default selection will be name
+                        }
+                    }
+                    });
                 editValue = (EditText) promptsView.findViewById(R.id.editTagValue) ;
-                final EditText userInputType = (EditText) promptsView
-                        .findViewById(R.id.editTagType);
                 final EditText userInputValue = (EditText) promptsView
                         .findViewById(R.id.editTagValue);
 
@@ -94,10 +119,8 @@ public class displaytags extends AppCompatActivity {
                 a.setPositiveButton("Add", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                System.out.println(editType + " editType");
-                                System.out.println("userInputType" + userInputType);
-                                editType.setText(userInputType.getText());
-                                String Type = editType.getText().toString();
+
+
                                 editValue.setText(userInputValue.getText());
                                 String Value = editValue.getText().toString();
                                 currPhoto.addTag(new Tag(Type, Value));
@@ -125,7 +148,7 @@ public class displaytags extends AppCompatActivity {
         });
     }
 
-    public void DeletePhoto(int i) {
+    public void DeleteTag(int i) {
         if(i>=0)
         {currPhoto.removeTag(currPhoto.getTags().get(i));}
 
@@ -138,7 +161,7 @@ public class displaytags extends AppCompatActivity {
         delTag.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DeletePhoto(a);
+                DeleteTag(a);
 
                 List_View();
 
@@ -172,5 +195,20 @@ public class displaytags extends AppCompatActivity {
     public static Album getCurrAlbumn(){
         return currAlbumn;
     }
+
+  /*  public void rbclick(View v){
+        rg = (RadioGroup)promptsView.findViewById(R.id.RadioGroup) ;
+        rn = (RadioButton) promptsView.findViewById(R.id.NameButton);
+        rl = (RadioButton) findViewById(R.id.LocationButton);
+        int rgID = rg.getCheckedRadioButtonId();
+        rb = (RadioButton)promptsView.findViewById(rgID);
+
+        String Type = "";
+        if(rg.getId()==R.id.NameButton)Type = "Name";
+        else if(rg.getId()==R.id.LocationButton) Type = "Location";
+        else{
+            Type = "Name"; // Default selection will be name
+        }
+    }*/
 
 }
