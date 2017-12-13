@@ -165,19 +165,15 @@ public class AlbumDisplay extends AppCompatActivity {
         }
     }*/
 
-    @Override
     public void onDestroy() {
-        int cur=  User.getAlbumNames().indexOf(p.getAlbumName());
-        User.getAlbumList().remove(cur);
-        User.getAlbumNames().remove(cur);
-        User.addAlbum(p);
-       /* try{
-        MainActivity.write();
-        }
-        catch(IOException e){
-            System.out.println("Couldnt write");
-        }*/
+        try{
+            System.out.println("on destroy");
+            MainActivity.write();}catch(IOException e){System.out.println("Write did not occure during destory in " +
+                "Album display");}
         super.onDestroy();
+
+
+
     }
 
 }

@@ -12,6 +12,8 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import java.io.IOException;
+
 import model.User;
 
 public class CopyActivity extends AppCompatActivity {
@@ -76,6 +78,17 @@ private static String CurrAlbum;
     public static String ReturnAlbumName(){
         CurrAlbum = User.getAlbumNames().get(CurrCopy);
         return CurrAlbum;
+    }
+
+    public void onDestroy() {
+        try{
+            System.out.println("on destroy");
+            MainActivity.write();}catch(IOException e){System.out.println("Write did not occure during destory in " +
+                "copy Activty");}
+        super.onDestroy();
+
+
+
     }
 
 }

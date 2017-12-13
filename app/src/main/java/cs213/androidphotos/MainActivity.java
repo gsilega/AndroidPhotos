@@ -321,4 +321,14 @@ public class MainActivity extends AppCompatActivity {
         CURRENTALBUM =c;
         return CURRENTALBUM;
     }
+    public void onDestroy() {
+        try{
+            System.out.println("on destroy");
+            write();}catch(IOException e){System.out.println("Write did not occure during destory in " +
+                "Main Activty");}
+        super.onDestroy();
+
+
+
+    }
 }

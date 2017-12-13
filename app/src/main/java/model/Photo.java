@@ -17,7 +17,7 @@ import android.graphics.BitmapFactory;
 
 import android.media.Image;
 import android.widget.ImageView;
-
+import java.io.ByteArrayOutputStream;
 public class Photo implements Serializable{
     // TODO: UPDATE GENERATED SERIALUID AFTER PHOTO IS TOTALLY IMPLEMENTED
     private static final long serialVersionUID = 8464047780639736628L;
@@ -30,9 +30,8 @@ public class Photo implements Serializable{
     private ArrayList<String> tagListConverter;
 
 
-
-
-    private Bitmap Bt;
+    private transient Bitmap Bt;
+    public byte[] imageByteArray;
 
 
     public Photo(Bitmap bt) {
@@ -41,6 +40,10 @@ public class Photo implements Serializable{
        Bt = bt;
         tagList = new ArrayList<Tag>();
         tagListConverter = new ArrayList<String>();
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        Bt.compress(Bitmap.CompressFormat.PNG, 100, stream);
+        imageByteArray = stream.toByteArray();
+
 
     }
 
@@ -130,9 +133,13 @@ public class Photo implements Serializable{
         Bt = b;
     }
 
+
     public Bitmap getBt(){
+        Bt = BitmapFactory.decodeByteArray(imageByteArray, 0, imageByteArray.length);
         return Bt;
     }
+
+
 
 
 
