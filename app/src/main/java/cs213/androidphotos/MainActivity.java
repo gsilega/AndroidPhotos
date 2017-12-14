@@ -285,7 +285,9 @@ public class MainActivity extends AppCompatActivity {
        User.albumList = (ArrayList<Album>) ois.readObject();
 
         for(Album z : User.albumList) {
-            User.albumNames.add(z.getAlbumName());
+            if (User.getAlbumNames().contains(z.getAlbumName())) continue;
+            else{
+                User.albumNames.add(z.getAlbumName());
             System.out.println(z.getAlbumName());
             ArrayList<Photo> addList = new ArrayList<Photo>();
             ArrayList<Photo> removeList = new ArrayList<Photo>();
@@ -294,13 +296,13 @@ public class MainActivity extends AppCompatActivity {
                 temp.setTags(p.getTags());
                 addList.add(temp);
                 removeList.add(p);
-                for (Tag t : temp.getTags()){
-                    temp.getTagStrings().add(t.getTagType()+ " " +t.getTagValue());
+                for (Tag t : temp.getTags()) {
+                    temp.getTagStrings().add(t.getTagType() + " " + t.getTagValue());
                 }
             }
             z.getPhotos().removeAll(removeList);
             z.getPhotos().addAll(addList);
-        }
+        }  }
 
         ois.close();
         //  System.out.println(UserNames());
@@ -330,7 +332,7 @@ public class MainActivity extends AppCompatActivity {
     }
     public void onDestroy() {
         try{
-            System.out.println("on destroy");
+            System.out.println("on destroy Main Activity ");
             write();}catch(IOException e){System.out.println("Write did not occure during destory in " +
                 "Main Activty");}
         super.onDestroy();

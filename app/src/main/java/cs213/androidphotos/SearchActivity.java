@@ -109,12 +109,11 @@ public class SearchActivity extends AppCompatActivity {
 
 
     public void searchTag(){
-        currPhotos.removeAll(currPhotos);
 
             SearchButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
+                    currPhotos.removeAll(currPhotos);
                             LayoutInflater li = LayoutInflater.from(SearchActivity.this);
                             promptsView = li.inflate(R.layout.searchpopup,null);
                             AlertDialog.Builder a = new AlertDialog.Builder(SearchActivity.this);
@@ -195,6 +194,8 @@ public class SearchActivity extends AppCompatActivity {
 
                 }
             });
+
+
     }
 
 

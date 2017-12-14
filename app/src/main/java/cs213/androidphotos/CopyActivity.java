@@ -82,7 +82,7 @@ private static String CurrAlbum;
 
     public void onDestroy() {
         try{
-            System.out.println("on destroy");
+            System.out.println("on destroy copy activity ");
             MainActivity.write();}catch(IOException e){System.out.println("Write did not occure during destory in " +
                 "copy Activty");}
         super.onDestroy();

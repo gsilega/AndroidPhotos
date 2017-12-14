@@ -180,7 +180,7 @@ public class displaytags extends AppCompatActivity {
 
     public void onDestroy() {
         try{
-            System.out.println("on destroy");
+            System.out.println("on destroy disyplay tags");
             MainActivity.write();}catch(IOException e){System.out.println("Write did not occure during destory in " +
                 "displaytags");}
         super.onDestroy();

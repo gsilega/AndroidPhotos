@@ -137,6 +137,10 @@ public class AlbumDisplay extends AppCompatActivity {
                     Drawable d = new BitmapDrawable(img);
                     p.addPhoto(s);
                     rv.setAdapter(adapter);
+                    try{
+                        System.out.println("destroyed onactivity ");
+                        MainActivity.write();}catch(IOException e){System.out.println("Write did not occure during destory in " +
+                            "Album display");}
                 }
                 break;
             default:
@@ -167,7 +171,7 @@ public class AlbumDisplay extends AppCompatActivity {
 
     public void onDestroy() {
         try{
-            System.out.println("on destroy");
+            System.out.println("on destroy Why is it");
             MainActivity.write();}catch(IOException e){System.out.println("Write did not occure during destory in " +
                 "Album display");}
         super.onDestroy();
