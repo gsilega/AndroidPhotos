@@ -78,7 +78,7 @@ public class Photo implements Serializable{
             if(t.equals(tag)) return;
         }
         tagList.add(tag);
-        tagListConverter.add(tag.getTagType() + " " + tag.getTagValue() + "\n");
+        tagListConverter.add(tag.getTagType() + " " + tag.getTagValue());
 
 
     }

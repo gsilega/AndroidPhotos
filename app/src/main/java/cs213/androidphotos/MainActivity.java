@@ -41,11 +41,13 @@ import android.os.Environment;
 import model.Album;
 import model.Photo;
 import model.User;
+import model.Tag;
 
 public class MainActivity extends AppCompatActivity {
     private static Button button;
     private static Button open;
     private static Button delete;
+    private static Button search;
     private static Button rename;
     public static final String FILE_NAME = "serial.dat";
     private EditText addAlbum;
@@ -71,6 +73,8 @@ public class MainActivity extends AppCompatActivity {
         }
         CreateAlbum();
       //  List_View();
+        search = (Button) findViewById(R.id.buttonMainSearch);
+        searchMethod();
 
     }
 
@@ -290,6 +294,9 @@ public class MainActivity extends AppCompatActivity {
                 temp.setTags(p.getTags());
                 addList.add(temp);
                 removeList.add(p);
+                for (Tag t : temp.getTags()){
+                    temp.getTagStrings().add(t.getTagType()+ " " +t.getTagValue());
+                }
             }
             z.getPhotos().removeAll(removeList);
             z.getPhotos().addAll(addList);
@@ -328,6 +335,21 @@ public class MainActivity extends AppCompatActivity {
                 "Main Activty");}
         super.onDestroy();
 
+
+
+    }
+
+    public void searchMethod(){
+
+        search.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent("cs213.androidphotos.SearchActivity");
+                        startActivity(intent);
+                    }
+                }
+        );
 
 
     }

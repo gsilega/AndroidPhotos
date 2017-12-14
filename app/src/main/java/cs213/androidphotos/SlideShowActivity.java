@@ -58,7 +58,7 @@ public class SlideShowActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
              currIndex--;
-             if(currIndex<-(a.getPhotoCount())) {currIndex =0;}
+             if(currIndex<-(a.getPhotoCount()) ||a.getPhotos().size()==1) {currIndex =0;}
             currIndex = Math.abs(currIndex);
                 Drawable d = new BitmapDrawable(a.getPhotos().get(currIndex).getBt());
                 imgSlide.setImageDrawable(d);
@@ -72,7 +72,7 @@ public class SlideShowActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 currIndex++;
-                if(currIndex >(a.getPhotoCount())) {currIndex =0;}
+                if(currIndex >(a.getPhotoCount())  ||a.getPhotos().size()==1) {currIndex =0;}
                 currIndex = Math.abs(currIndex);
                 Drawable d = new BitmapDrawable(a.getPhotos().get(currIndex).getBt());
                 imgSlide.setImageDrawable(d);

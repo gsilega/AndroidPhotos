@@ -63,5 +63,7 @@ public class Tag implements Serializable {
         return this.tagValue;
     }
 
-
+public String toString(){
+        return getTagType() + " " + getTagValue();
+}
 }

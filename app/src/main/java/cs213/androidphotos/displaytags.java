@@ -41,7 +41,7 @@ public class displaytags extends AppCompatActivity {
     private static RadioButton rn;
     private static RadioButton rl;
    public String Type;
-   public static View promptsView;
+   private static View promptsView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,9 +56,10 @@ public class displaytags extends AppCompatActivity {
         Drawable d = new BitmapDrawable(currPhoto.getBt());
         imgview.setImageDrawable(d);
         slideshow = (Button) findViewById(R.id.SlideShowbutton);
+        List_View();
         CreateTag();
         Slideshow();
-        List_View();
+
 
     }
     public void List_View(){
@@ -124,10 +125,8 @@ public class displaytags extends AppCompatActivity {
                                 editValue.setText(userInputValue.getText());
                                 String Value = editValue.getText().toString();
                                 currPhoto.addTag(new Tag(Type, Value));
+
                                 List_View();
-                                for (int i =0; i <currPhoto.getTags().size(); i++){
-                                    System.out.println(currPhoto.getTagStrings().get(i));
-                                }
                                 // System.out.println(alb);
                                 dialog.dismiss();
                             }
