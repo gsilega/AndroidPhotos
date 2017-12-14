@@ -71,8 +71,8 @@ public class MainActivity extends AppCompatActivity {
         catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
+        List_View();
         CreateAlbum();
-      //  List_View();
         search = (Button) findViewById(R.id.buttonMainSearch);
         searchMethod();
 

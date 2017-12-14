@@ -41,7 +41,7 @@ private static String CurrAlbum;
                         Toast.makeText(CopyActivity.this, "Postion: " + position +
                                 " Value : " + value, Toast.LENGTH_LONG).show();;
                         LayoutInflater li = LayoutInflater.from(CopyActivity.this);
-                        View promptsView = li.inflate(R.layout.renamepopup,null);
+                        View promptsView = li.inflate(R.layout.copymakesure,null);
                         AlertDialog.Builder a = new AlertDialog.Builder(CopyActivity.this);
                         a.setView(promptsView);
                         a.setMessage("Sure you want to copy photo to this Album?")

@@ -7,7 +7,7 @@
         android:id="@+id/CreateAlbumTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Type Your Message : "
+        android:text="Type Your Album Name"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <EditText
